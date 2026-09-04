@@ -13,7 +13,9 @@ def lagrange_inter(x, X_in, Y_in):
 
         for j in range(len(X_in)):
             if j != i:
-                L_i *= (x - X_in[j])/(X_in[i] - X_in[j])     
+                L_i *= (x - X_in[j])/(X_in[i] - X_in[j])
+
+        #print(f"L_{i} = {L_i:.5f}")     
 
         P += Y_in[i]*L_i
 
@@ -28,8 +30,28 @@ if __name__ == "__main__":
     Y_in = np.array([3,1,0,4.2,3.12])
 
 
-    x_new = 1.5
+    x_new = 2.502
     y_new = lagrange_inter(x_new, X_in, Y_in)
 
     print(f"x = {x_new}")
     print(f"Interpolated y = {y_new}")
+
+
+    # Generate smooth curve for plotting
+    x_plot = np.linspace(X_in.min(), X_in.max(), 200)
+
+    y_plot = np.array([
+        lagrange_inter(x, X_in, Y_in)
+        for x in x_plot])
+
+    # Plot
+    plt.figure(figsize=(8, 6))
+
+    plt.plot(x_plot, y_plot, label="Lagrange interpolation")
+    plt.scatter(X_in, Y_in, s=80, label="Data points")
+
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.legend()
+
+    plt.show()
